@@ -12,7 +12,7 @@ namespace TestReaper
 	{
 		static void Main(string[] args)
 		{
-			string str = null;
+			string str = "";
 			Reaper r = new Reaper(str);
 		}
 	}

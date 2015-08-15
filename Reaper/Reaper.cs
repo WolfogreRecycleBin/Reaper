@@ -12,8 +12,10 @@ namespace Wolfogre.Tool
 
 		public Reaper(string baseStr)
 		{
-			if (baseStr == null || baseStr == "")
-				throw new ArgumentNullException("baseStr", "can not be null or empty.");
+			if (baseStr == null)
+				throw new ArgumentNullException("baseStr", "Can not be null.");
+			if (baseStr == String.Empty)
+				throw new ArgumentNullException("baseStr", "Can not be empty.");
 			_baseStrs = new List<string>();
 			_baseStrs.Add(baseStr);
 		}
@@ -21,12 +23,29 @@ namespace Wolfogre.Tool
 		public Reaper(List<string> baseStrs)
 		{
 			if (baseStrs == null)
-				throw new ArgumentNullException("baseStrs", "can not be null.");
-			_baseStrs = new List<string>(baseStrs);
+				throw new ArgumentNullException("baseStrs", "Can not be null.");
+			if (baseStrs.Count == 0)
+				throw new ArgumentNullException("baseStrs", "Can not be empty.");
+			_baseStrs = new List<string>();
+			foreach(var str in baseStrs)
+			{
+				if (str != String.Empty)
+					_baseStrs.Add(str);
+			}
+			if(baseStrs.Count == 0)
+			{
+				throw new ArgumentNullException("baseStrs", "Can not contain only empty strings.");
+			}
 		}
 
 		public List<string> GetResult()
 		{
+			List<string> result = new List<string>();
+			foreach (var str in _baseStrs)
+			{
+				if (str != String.Empty)
+					result.Add(str);
+			}
 			return new List<string>(_baseStrs);
 		}
 
@@ -38,7 +57,7 @@ namespace Wolfogre.Tool
 		public Reaper ReapBySuffix(string suffix)
 		{
 			if (suffix == null || suffix == "")
-				throw new ArgumentNullException("profix", "can not be null or empty.");
+				throw new ArgumentNullException("profix", "Can not be null or empty.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -59,7 +78,7 @@ namespace Wolfogre.Tool
 		public Reaper ReapByProfix(string profix)
 		{
 			if (profix == null || profix == "")
-				throw new ArgumentNullException("profix", "can not be null or empty.");
+				throw new ArgumentNullException("profix", "Can not be null or empty.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -80,7 +99,7 @@ namespace Wolfogre.Tool
 		public Reaper RemainBeforeFirst(string subStr)
 		{
 			if (subStr == null || subStr == "")
-				throw new ArgumentNullException("subStr", "can not be null.");
+				throw new ArgumentNullException("subStr", "Can not be null.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -96,7 +115,7 @@ namespace Wolfogre.Tool
 		public Reaper RemainAfterFirst(string subStr)
 		{
 			if (subStr == null || subStr == "")
-				throw new ArgumentNullException("subStr", "can not be null.");
+				throw new ArgumentNullException("subStr", "Can not be null.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -112,7 +131,7 @@ namespace Wolfogre.Tool
 		public Reaper RemainBeforeLast(string subStr)
 		{
 			if (subStr == null || subStr == "")
-				throw new ArgumentNullException("subStr", "can not be null.");
+				throw new ArgumentNullException("subStr", "Can not be null.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -124,7 +143,7 @@ namespace Wolfogre.Tool
 		public Reaper RemainAfterLast(string subStr)
 		{
 			if (subStr == null || subStr == "")
-				throw new ArgumentNullException("subStr", "can not be null.");
+				throw new ArgumentNullException("subStr", "Can not be null.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -136,7 +155,7 @@ namespace Wolfogre.Tool
 		public Reaper DeleteBeforeFirst(string subStr)
 		{
 			if (subStr == null || subStr == "")
-				throw new ArgumentNullException("subStr", "can not be null.");
+				throw new ArgumentNullException("subStr", "Can not be null.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -152,7 +171,7 @@ namespace Wolfogre.Tool
 		public Reaper DeleteAfterFirst(string subStr)
 		{
 			if (subStr == null || subStr == "")
-				throw new ArgumentNullException("subStr", "can not be null.");
+				throw new ArgumentNullException("subStr", "Can not be null.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -168,7 +187,7 @@ namespace Wolfogre.Tool
 		public Reaper DeleteBeforeLast(string subStr)
 		{
 			if (subStr == null || subStr == "")
-				throw new ArgumentNullException("subStr", "can not be null.");
+				throw new ArgumentNullException("subStr", "Can not be null.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -180,7 +199,7 @@ namespace Wolfogre.Tool
 		public Reaper DeleteAfterLast(string subStr)
 		{
 			if (subStr == null || subStr == "")
-				throw new ArgumentNullException("subStr", "can not be null.");
+				throw new ArgumentNullException("subStr", "Can not be null.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -192,7 +211,7 @@ namespace Wolfogre.Tool
 		public Reaper GiveUpContain(string subStr)
 		{
 			if (subStr == null || subStr == "")
-				throw new ArgumentNullException("subStr", "can not be null.");
+				throw new ArgumentNullException("subStr", "Can not be null.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -204,7 +223,7 @@ namespace Wolfogre.Tool
 		private List<int> FindIndexOf(string mainStr, string subStr)
 		{
 			if (subStr == null || subStr == "")
-				throw new ArgumentNullException("profix", "can not be null or empty.");
+				throw new ArgumentNullException("profix", "Can not be null or empty.");
 			List<int> result = new List<int>();
 			int startIndex = 0;
 			while (mainStr.IndexOf(subStr, startIndex) != -1)
