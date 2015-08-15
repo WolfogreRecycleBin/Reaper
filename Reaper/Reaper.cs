@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wolfogre.Tool
 {
-	class Reaper
+	public class Reaper
 	{
 		List<string> _baseStrs;
 
