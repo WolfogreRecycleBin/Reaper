@@ -56,8 +56,10 @@ namespace Wolfogre.Tool
 
 		public Reaper ReapBySuffix(string suffix)
 		{
-			if (suffix == null || suffix == "")
-				throw new ArgumentNullException("profix", "Can not be null or empty.");
+			if (suffix == null)
+				throw new ArgumentNullException("profix", "Can not be null.");
+			if (suffix == String.Empty)
+				throw new ArgumentNullException("profix", "Can not be empty.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -77,8 +79,10 @@ namespace Wolfogre.Tool
 
 		public Reaper ReapByProfix(string profix)
 		{
-			if (profix == null || profix == "")
-				throw new ArgumentNullException("profix", "Can not be null or empty.");
+			if (profix == null)
+				throw new ArgumentNullException("profix", "Can not be null.");
+			if (profix == String.Empty)
+				throw new ArgumentNullException("profix", "Can not be empty.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -98,8 +102,10 @@ namespace Wolfogre.Tool
 
 		public Reaper RemainBeforeFirst(string subStr)
 		{
-			if (subStr == null || subStr == "")
+			if (subStr == null)
 				throw new ArgumentNullException("subStr", "Can not be null.");
+			if (subStr == String.Empty)
+				throw new ArgumentNullException("subStr", "Can not be empty.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -114,8 +120,10 @@ namespace Wolfogre.Tool
 
 		public Reaper RemainAfterFirst(string subStr)
 		{
-			if (subStr == null || subStr == "")
+			if (subStr == null)
 				throw new ArgumentNullException("subStr", "Can not be null.");
+			if (subStr == String.Empty)
+				throw new ArgumentNullException("subStr", "Can not be empty.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
@@ -130,92 +138,124 @@ namespace Wolfogre.Tool
 
 		public Reaper RemainBeforeLast(string subStr)
 		{
-			if (subStr == null || subStr == "")
+			if (subStr == null)
 				throw new ArgumentNullException("subStr", "Can not be null.");
+			if (subStr == String.Empty)
+				throw new ArgumentNullException("subStr", "Can not be empty.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
-
+				List<int> indexs = FindIndexOf(str, subStr);
+				if (indexs.Count == 0)
+					continue;
+				else
+					result.Add(str.Substring(0, indexs[indexs.Count - 1] - 0));
 			}
 			return new Reaper(result);
 		}
 
 		public Reaper RemainAfterLast(string subStr)
 		{
-			if (subStr == null || subStr == "")
+			if (subStr == null)
 				throw new ArgumentNullException("subStr", "Can not be null.");
+			if (subStr == String.Empty)
+				throw new ArgumentNullException("subStr", "Can not be empty.");
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
-
+				List<int> indexs = FindIndexOf(str, subStr);
+				if (indexs.Count == 0)
+					continue;
+				else
+					result.Add(str.Substring(indexs[indexs.Count - 1] + subStr.Length, str.Length - indexs[indexs.Count - 1] - subStr.Length));
 			}
 			return new Reaper(result);
 		}
 
 		public Reaper DeleteBeforeFirst(string subStr)
 		{
-			if (subStr == null || subStr == "")
+			if (subStr == null)
 				throw new ArgumentNullException("subStr", "Can not be null.");
-			List<string> result = new List<string>();
-			foreach (var str in _baseStrs)
+			if (subStr == String.Empty)
+				throw new ArgumentNullException("subStr", "Can not be empty.");
+			List<string> result = new List<string>(_baseStrs);
+			for (int i = 0; i < result.Count; ++i)
 			{
-				List<int> indexs = FindIndexOf(str, subStr);
+				List<int> indexs = FindIndexOf(result[i], subStr);
 				if (indexs.Count == 0)
 					continue;
 				else
-					result.Add(str.Substring(0, indexs[0] - 0));
+					result[i] = result[i].Substring(indexs[0], result[i].Length - indexs[0]);
 			}
 			return new Reaper(result);
 		}
 
 		public Reaper DeleteAfterFirst(string subStr)
 		{
-			if (subStr == null || subStr == "")
+			if (subStr == null)
 				throw new ArgumentNullException("subStr", "Can not be null.");
-			List<string> result = new List<string>();
-			foreach (var str in _baseStrs)
+			if (subStr == String.Empty)
+				throw new ArgumentNullException("subStr", "Can not be empty.");
+			List<string> result = new List<string>(_baseStrs);
+			for (int i = 0; i < result.Count; ++i)
 			{
-				List<int> indexs = FindIndexOf(str, subStr);
+				List<int> indexs = FindIndexOf(result[i], subStr);
 				if (indexs.Count == 0)
 					continue;
 				else
-					result.Add(str.Substring(indexs[0] + subStr.Length, str.Length - indexs[0] - subStr.Length));
+					result[i] = result[i].Substring(0, indexs[0] + subStr.Length);
 			}
 			return new Reaper(result);
 		}
 
 		public Reaper DeleteBeforeLast(string subStr)
 		{
-			if (subStr == null || subStr == "")
+			if (subStr == null)
 				throw new ArgumentNullException("subStr", "Can not be null.");
-			List<string> result = new List<string>();
-			foreach (var str in _baseStrs)
+			if (subStr == String.Empty)
+				throw new ArgumentNullException("subStr", "Can not be empty.");
+			List<string> result = new List<string>(_baseStrs);
+			for (int i = 0; i < result.Count; ++i)
 			{
-
+				List<int> indexs = FindIndexOf(result[i], subStr);
+				if (indexs.Count == 0)
+					continue;
+				else
+					result[i] = result[i].Substring(indexs[indexs.Count - 1], result[i].Length - indexs[indexs.Count - 1]);
 			}
 			return new Reaper(result);
 		}
 
 		public Reaper DeleteAfterLast(string subStr)
 		{
-			if (subStr == null || subStr == "")
+			if (subStr == null)
 				throw new ArgumentNullException("subStr", "Can not be null.");
-			List<string> result = new List<string>();
-			foreach (var str in _baseStrs)
+			if (subStr == String.Empty)
+				throw new ArgumentNullException("subStr", "Can not be empty.");
+			List<string> result = new List<string>(_baseStrs);
+			for (int i = 0; i < result.Count; ++i)
 			{
-
+				List<int> indexs = FindIndexOf(result[i], subStr);
+				if (indexs.Count == 0)
+					continue;
+				else
+					result[i] = result[i].Substring(0, indexs[indexs.Count - 1] + subStr.Length);
 			}
 			return new Reaper(result);
 		}
 
 		public Reaper GiveUpContain(string subStr)
 		{
-			if (subStr == null || subStr == "")
+			if (subStr == null)
 				throw new ArgumentNullException("subStr", "Can not be null.");
-			List<string> result = new List<string>();
-			foreach (var str in _baseStrs)
+			if (subStr == String.Empty)
+				throw new ArgumentNullException("subStr", "Can not be empty.");
+			List<string> result = new List<string>(_baseStrs);
+			for (int i = 0; i < result.Count; ++i)
 			{
-
+				if (result[i].IndexOf(subStr) != -1)
+					result[i] = "";
+				//直接删除会造成result的索引失效，故置空，构造Reaper的时候会被忽略
 			}
 			return new Reaper(result);
 		}
