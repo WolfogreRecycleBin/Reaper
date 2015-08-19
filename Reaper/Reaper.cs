@@ -255,7 +255,23 @@ namespace Wolfogre.Tool
 			{
 				if (result[i].IndexOf(subStr) != -1)
 					result[i] = "";
-				//直接删除会造成result的索引失效，故置空，构造Reaper的时候会被忽略
+				//直接删除会造成result的索引失效，故置空，构造Reaper或返回Result的时候会被忽略
+			}
+			return new Reaper(result);
+		}
+
+		public Reaper GiveUpNotContain(string subStr)
+		{
+			if (subStr == null)
+				throw new ArgumentNullException("subStr", "Can not be null.");
+			if (subStr == String.Empty)
+				throw new ArgumentNullException("subStr", "Can not be empty.");
+			List<string> result = new List<string>(_baseStrs);
+			for (int i = 0; i < result.Count; ++i)
+			{
+				if (result[i].IndexOf(subStr) == -1)
+					result[i] = "";
+				//直接删除会造成result的索引失效，故置空，构造Reaper或返回Result的时候会被忽略
 			}
 			return new Reaper(result);
 		}
