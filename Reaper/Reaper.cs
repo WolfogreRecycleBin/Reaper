@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Collections;
+
 namespace Wolfogre.Tool
 {
-	public class Reaper
+	public class Reaper : IEnumerable, IEnumerator
 	{
 		List<string> _baseStrs;
 
@@ -27,12 +29,12 @@ namespace Wolfogre.Tool
 			if (baseStrs.Count == 0)
 				throw new ArgumentNullException("baseStrs", "Can not be empty.");
 			_baseStrs = new List<string>();
-			foreach(var str in baseStrs)
+			foreach (var str in baseStrs)
 			{
 				if (str != String.Empty)
 					_baseStrs.Add(str);
 			}
-			if(baseStrs.Count == 0)
+			if (baseStrs.Count == 0)
 			{
 				throw new ArgumentNullException("baseStrs", "Can not contain only empty strings.");
 			}
@@ -86,12 +88,12 @@ namespace Wolfogre.Tool
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
-				List<int> indexs = FindIndexOf(str,profix);
-				if(indexs.Count == 0)
+				List<int> indexs = FindIndexOf(str, profix);
+				if (indexs.Count == 0)
 					continue;
-				for(int i = 0; i < indexs.Count; ++i)
+				for (int i = 0; i < indexs.Count; ++i)
 				{
-					if(i + 1 < indexs.Count)
+					if (i + 1 < indexs.Count)
 						result.Add(str.Substring(indexs[i] + profix.Length, indexs[i + 1] - indexs[i] - profix.Length));
 					else
 						result.Add(str.Substring(indexs[i] + profix.Length, str.Length - indexs[i] - profix.Length));
@@ -288,6 +290,39 @@ namespace Wolfogre.Tool
 				startIndex = mainStr.IndexOf(subStr, startIndex) + subStr.Length;
 			}
 			return result;
+		}
+
+		//实现迭代器接口
+		int index = -1;
+
+		public IEnumerator GetEnumerator()
+		{
+			return this;
+		}
+
+		public void Reset()
+		{
+			index = -1;
+		}
+
+		public object Current
+		{
+			get
+			{
+				return new Reaper(GetResult()[index]);
+			}
+		}
+
+		public bool MoveNext()
+		{
+			++index;
+			if (index >= GetResult().Count)
+			{
+				index = -1;
+				return false;
+			}
+			else
+				return true;
 		}
 	}
 }
