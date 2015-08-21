@@ -111,11 +111,11 @@ namespace Wolfogre.Tool
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
-				List<int> indexs = FindIndexOf(str, subStr);
-				if (indexs.Count == 0)
+				int index = str.IndexOf(subStr);
+				if (index == -1)
 					continue;
 				else
-					result.Add(str.Substring(0, indexs[0] - 0));
+					result.Add(str.Substring(0, index - 0));
 			}
 			return new Reaper(result);
 		}
@@ -129,11 +129,11 @@ namespace Wolfogre.Tool
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
-				List<int> indexs = FindIndexOf(str, subStr);
-				if (indexs.Count == 0)
+				int index = str.IndexOf(subStr);
+				if (index == -1)
 					continue;
 				else
-					result.Add(str.Substring(indexs[0] + subStr.Length, str.Length - indexs[0] - subStr.Length));
+					result.Add(str.Substring(index + subStr.Length, str.Length - index - subStr.Length));
 			}
 			return new Reaper(result);
 		}
@@ -147,11 +147,11 @@ namespace Wolfogre.Tool
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
-				List<int> indexs = FindIndexOf(str, subStr);
-				if (indexs.Count == 0)
+				int index = str.LastIndexOf(subStr);
+				if (index == -1)
 					continue;
 				else
-					result.Add(str.Substring(0, indexs[indexs.Count - 1] - 0));
+					result.Add(str.Substring(0, index - 0));
 			}
 			return new Reaper(result);
 		}
@@ -165,11 +165,11 @@ namespace Wolfogre.Tool
 			List<string> result = new List<string>();
 			foreach (var str in _baseStrs)
 			{
-				List<int> indexs = FindIndexOf(str, subStr);
-				if (indexs.Count == 0)
+				int index = str.LastIndexOf(subStr);
+				if (index == -1)
 					continue;
 				else
-					result.Add(str.Substring(indexs[indexs.Count - 1] + subStr.Length, str.Length - indexs[indexs.Count - 1] - subStr.Length));
+					result.Add(str.Substring(index + subStr.Length, str.Length - index - subStr.Length));
 			}
 			return new Reaper(result);
 		}
@@ -183,11 +183,11 @@ namespace Wolfogre.Tool
 			List<string> result = new List<string>(_baseStrs);
 			for (int i = 0; i < result.Count; ++i)
 			{
-				List<int> indexs = FindIndexOf(result[i], subStr);
-				if (indexs.Count == 0)
+				int index = result[i].IndexOf(subStr);
+				if (index == -1)
 					continue;
 				else
-					result[i] = result[i].Substring(indexs[0], result[i].Length - indexs[0]);
+					result[i] = result[i].Substring(index, result[i].Length - index);
 			}
 			return new Reaper(result);
 		}
@@ -201,11 +201,11 @@ namespace Wolfogre.Tool
 			List<string> result = new List<string>(_baseStrs);
 			for (int i = 0; i < result.Count; ++i)
 			{
-				List<int> indexs = FindIndexOf(result[i], subStr);
-				if (indexs.Count == 0)
+				int index = result[i].IndexOf(subStr);
+				if (index == -1)
 					continue;
 				else
-					result[i] = result[i].Substring(0, indexs[0] + subStr.Length);
+					result[i] = result[i].Substring(0, index + subStr.Length);
 			}
 			return new Reaper(result);
 		}
@@ -219,11 +219,11 @@ namespace Wolfogre.Tool
 			List<string> result = new List<string>(_baseStrs);
 			for (int i = 0; i < result.Count; ++i)
 			{
-				List<int> indexs = FindIndexOf(result[i], subStr);
-				if (indexs.Count == 0)
+				int index = result[i].LastIndexOf(subStr);
+				if (index == -1)
 					continue;
 				else
-					result[i] = result[i].Substring(indexs[indexs.Count - 1], result[i].Length - indexs[indexs.Count - 1]);
+					result[i] = result[i].Substring(index, result[i].Length - index);
 			}
 			return new Reaper(result);
 		}
@@ -237,11 +237,11 @@ namespace Wolfogre.Tool
 			List<string> result = new List<string>(_baseStrs);
 			for (int i = 0; i < result.Count; ++i)
 			{
-				List<int> indexs = FindIndexOf(result[i], subStr);
-				if (indexs.Count == 0)
+				int index = result[i].LastIndexOf(subStr);
+				if (index == -1)
 					continue;
 				else
-					result[i] = result[i].Substring(0, indexs[indexs.Count - 1] + subStr.Length);
+					result[i] = result[i].Substring(0, index + subStr.Length);
 			}
 			return new Reaper(result);
 		}
@@ -284,10 +284,11 @@ namespace Wolfogre.Tool
 				throw new ArgumentNullException("profix", "Can not be null or empty.");
 			List<int> result = new List<int>();
 			int startIndex = 0;
-			while (mainStr.IndexOf(subStr, startIndex) != -1)
+			int findIndex;
+			while ((findIndex = mainStr.IndexOf(subStr, startIndex)) != -1)
 			{
-				result.Add(mainStr.IndexOf(subStr, startIndex));
-				startIndex = mainStr.IndexOf(subStr, startIndex) + subStr.Length;
+				result.Add(findIndex);
+				startIndex = findIndex + subStr.Length;
 			}
 			return result;
 		}

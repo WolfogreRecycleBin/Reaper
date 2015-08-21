@@ -57,7 +57,6 @@ namespace TestReaper
 				{
 					string tableName = table.RemainBeforeFirst("\" width=\"95%\">").GetResult()[0];
 
-					int lineCount = 0;
 					foreach (Reaper line in table.ReapByProfix("<tr><td>").GiveUpContain("<td>Jan</td><td>Feb</td><td>Mar</td>"))
 					{
 						string lineName = line.RemainBeforeFirst("</td>").GetResult()[0];
