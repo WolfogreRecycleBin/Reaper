@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Wolfogre.Tool;
 using System.IO;
+using System.Threading;
 
 namespace TestReaper
 {
@@ -13,7 +14,65 @@ namespace TestReaper
 	{
 		static void Main(string[] args)
 		{
-			test3();
+			test6();
+		}
+
+		static void test6()
+		{
+			int countTimes = 0;
+			while (countTimes < 10000)
+			{
+				test4();
+				Console.WriteLine(++countTimes);
+			}
+		}
+
+		static void test5()
+		{
+			Thread[] ths = new Thread[10];
+			int countTimes = 0;
+			while (countTimes < 10000)
+			{
+				for (int i = 0; i < 10; ++i)
+				{
+					if (ths[i] == null || ths[i].ThreadState == ThreadState.Stopped)
+					{
+						ths[i] = new Thread(new ThreadStart(test4));
+						ths[i].Start();
+						Console.WriteLine(++countTimes);
+					}
+				}
+			}	
+		}
+
+		static void test4()
+		{
+			string originString = (new StreamReader("03,073.html")).ReadToEnd();
+			DateTime dt = DateTime.Now;
+			Reaper reaper = new Reaper(originString);
+			foreach (Reaper part in reaper.RemainBeforeFirst("<table width=\"100%\" summary=\"table used for formatting\"><tr><td>").ReapByProfix("<hr><big><b><i>"))
+			{
+				string partName = part.RemainBeforeFirst(":</i></b></big>").GetResult()[0];
+				foreach (Reaper table in part.ReapByProfix("<div align=\"center\"><table border=1 summary=\""))
+				{
+					string tableName = table.RemainBeforeFirst("\" width=\"95%\">").GetResult()[0];
+
+					int lineCount = 0;
+					foreach (Reaper line in table.ReapByProfix("<tr><td>").GiveUpContain("<td>Jan</td><td>Feb</td><td>Mar</td>"))
+					{
+						string lineName = line.RemainBeforeFirst("</td>").GetResult()[0];
+						/////////
+						foreach (Reaper data in line.ReapByProfix("<td align=\"center\" nowrap>").RemainBeforeFirst("</td>"))
+						{
+							/////////
+						}
+						/////////////
+					}
+				}
+			}
+			////////////
+			TimeSpan ts = DateTime.Now - dt;
+			Console.WriteLine(ts);
 		}
 
 		static void test3()
