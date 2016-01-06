@@ -47,7 +47,7 @@ namespace TestReaper
 
 		static void test4()
 		{
-			string originString = (new StreamReader("03,073.html")).ReadToEnd();
+			string originString = (new StreamReader("03,073.txt")).ReadToEnd();
 			DateTime dt = DateTime.Now;
 			Reaper reaper = new Reaper(originString);
 			foreach (Reaper part in reaper.RemainBeforeFirst("<table width=\"100%\" summary=\"table used for formatting\"><tr><td>").ReapByProfix("<hr><big><b><i>"))
